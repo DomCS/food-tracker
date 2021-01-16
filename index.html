@@ -7,7 +7,7 @@
     <title>Section 3: Javascript Language Basics</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-<body onload="initOptions()">
+<body>
   <header>
       <h1 >Diet Tracker with Macronutrient Calculator</h1>
       <nav>
@@ -40,19 +40,20 @@
   <section>
     <div>
       <img src="assets/feather\bar-chart.svg" title="image of 3 vertical bars, representing a chart" alt="image of 3 vertical bars, representing a chart">
-      <h1>Food Charting</h1> 
+      <h1 style="display: inline-block;">Food Charting</h1> 
+
+      <span id="display-averages"></span>
       
 <!--Label for the select dropdown-->
-      <label for="food"><span>Select your food</span></label>
+      <label style="display: block;" for="food"><span>Select your food</span></label>
 <!-- This is the select dropdown,
 it has no option elements because they are injected from app.js-->
       <select name="food" id="food-select" required></select>
 <!--buttons managing the functionality of the food nutrient calculator-->
-      <button type="submit" onclick="foodAdd()">Add Food To Eaten</button> 
-      <button onclick="drawChart(), avgCaloriesF(), 
-          avgFatF(), avgCarbsF(), avgProF(), addTableRow()">Count nutrient averages</button>
-      <button onclick="removeLastFood()">Remove Last Food</button>
-      <button onclick="clearFoods()">Clear the list</button>
+      <button id="add-food-button">Add Food To Eaten</button> 
+      <button id="averages-button">Count nutrient averages</button>
+      <button id="remove-food-button">Remove Last Food</button>
+      <button id="clear-daily-list-button">Clear the list</button>
     </div>
   </section>
   <section class="charts">
@@ -63,9 +64,10 @@ it has no option elements because they are injected from app.js-->
     <div id="table-1" style="width: 1000px; height: 500px;">sdf</div>
   </section>
 
+
   <footer>&COPY; Copyright 2020, Sermon Technologies</footer>
 
-  <script src="app.js" type="text/javascript" defer></script>
+  <script src="app.js" type="module" defer></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </body>
 </html>

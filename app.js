@@ -1,3 +1,5 @@
+import { addToEaten, userDailyLib, setAverageDisplay } from './handlers.js';
+import {getAverages} from './utils.js';
 
 // Load the Visualization API and the corechart package.
 google.charts.load('current', {'packages':['corechart', 'table']}).then(drawChart).then(drawTable);
@@ -5,11 +7,11 @@ google.charts.load('current', {'packages':['corechart', 'table']}).then(drawChar
 //instead there is a promise to call drawchart above
 //google.charts.setOnLoadCallback(drawTable);
 
-
 const displayFoods = document.getElementById('food-display');
-
-console.log(displayFoods);
-
+const addFoodBtn = document.getElementById('add-food-button');
+const averageBtn = document.getElementById('averages-button');
+const removeLastBtn = document.getElementById('remove-food-button');
+const clearListBtn = document.getElementById('clear-daily-list-button');
 
 //constructor for the food class
 class Food {
@@ -22,7 +24,8 @@ class Food {
     this.protein = protein;
   }
 }
-const foodLibrary = [
+
+export const foodLibrary = [
   //making of the food variables  for each in our library
   new Food('Sockey Salmon', "6 oz", 300,15,0,36),
   new Food('Lentils', '198g', 230, .8,39.9,17.9),
@@ -34,41 +37,27 @@ const foodLibrary = [
   new Food('Red Quinoa', '185g', 222, 3.6,39.4,8.1),
 ];
 
-const userDailyLib = [];
+const averages = getAverages();
+console.log(averages[1]);
+console.log(displayFoods);
 
-for(let i = 0; i < foodLibrary.length; i++){
-  console.log(foodLibrary[i].name + foodLibrary[i].servingSize);
-}
-
-/*
-//making of the food variables  for each in our library
-const salmon = new Food('Sockey Salmon', "6 oz", 300,15,0,36);
-const lentils = new Food('Lentils', '198g', 230, .8,39.9,17.9);
-const rice = new Food('Rice','186g', 242, .4, 53.2,4.4 );
-const mcChicken = new Food('McChicken', '147g',430,23,41,14);
-const groundBeef = new Food('Ground Beef 93%', '112g', 170, 8, 0, 23);
-const baconGrease = new Food('Bacon Grease', '1tsp', 38.1,4.2,0,0);
-const sweetPotato = new Food('Sweet Potato', '328g', 249, 0.5, 58.1,4.5);
-const quinoa = new Food('Red Quinoa', '185g', 222, 3.6,39.4,8.1);
-*/
-
-testSetFoodIntoDoc();
-console.log(foodLibrary);
+//call some intial state setting functions
+initOptions(), testSetFoodIntoDoc();
 
 
-var c = document.getElementById('food-select').children;
+addFoodBtn.addEventListener('click', addToEaten, setAverageDisplay);
+averageBtn.addEventListener('click', setAverageDisplay);
+
 function initOptions(){
   for(let i= 0; i< foodLibrary.length; i++){
     let option = document.createElement('OPTION');
-    console.log(option);
+   
     option.textContent = foodLibrary[i].name;
     document.getElementById('food-select').appendChild(option);
     //instead of this we'll grab the food-select and append a child select element.name 
     //as that new child elements textContent 
   }
 }
-console.log(c);
-
 
 
 //testing how to grab the list of foods and print each one to the document
@@ -78,7 +67,7 @@ console.log(c);
 function testSetFoodIntoDoc(){
   let displayVar;
   for(let i =0; i <foodLibrary.length; i++){
-    displayVar = displayFoods.textContent + foodLibrary[i].name + " ";
+    displayVar = displayFoods.textContent + foodLibrary[i].name + ", ";
     displayFoods.textContent= displayVar;
   }
 }
@@ -86,7 +75,7 @@ function testSetFoodIntoDoc(){
 //each chart gets its information from the food that is added to daily eaten foods
 //one chart being the nutrients
 //other chart being calories
-function drawChart() {
+export function drawChart() {
 /*
     //This is the alorithm for the data once we get there
     //
@@ -105,7 +94,7 @@ function drawChart() {
     ]);
 */
 //this is the data to get the charts going hard coded
-  var data1, data2;
+  let data1, data2;
   
   data1 = new google.visualization.DataTable();
   data1.addColumn('string', 'Topping');
@@ -157,7 +146,7 @@ function drawChart() {
   chart2.draw(data2, options2);
 }
 
-function drawTable() {
+export function drawTable() {
   var data = new google.visualization.DataTable();
   data.addColumn('string', 'Name');
   data.addColumn('number', 'Salary');
